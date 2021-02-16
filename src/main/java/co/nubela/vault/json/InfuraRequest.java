@@ -14,5 +14,5 @@ public class InfuraRequest {
     private int id;
     private String jsonrpc = "2.0";
     private String method;
-    private List<Object> params;
+    private List<String> params;
 }

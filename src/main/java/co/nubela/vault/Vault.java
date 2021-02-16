@@ -1,6 +1,6 @@
 package co.nubela.vault;
 
-import co.nubela.vault.json.GasPriceResponse;
+import co.nubela.vault.json.InfuraResponse;
 import co.nubela.vault.json.InfuraRequest;
 import co.nubela.vault.server.VaultServer;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Vault {
     public static void main(String[] args) {
         //get the gas price
-        GasPriceResponse gas = null;
+        InfuraResponse gas = null;
         try {
             InfuraRequest req = new InfuraRequest();
             req.setId(1);
@@ -29,7 +29,7 @@ public class Vault {
             Call call = client.newCall(request);
             ResponseBody response = call.execute().body();
 
-            gas = mapper.readValue(response.string(), GasPriceResponse.class);
+            gas = mapper.readValue(response.string(), InfuraResponse.class);
         }
         catch (Exception ex){
             System.out.println("ERROR: "+ex.getMessage());
@@ -37,6 +37,6 @@ public class Vault {
 
         //start the server
         VaultServer server = new VaultServer(gas.getResult());
-        server.start(Integer.valueOf(args[0]));
+        server.start(args[0]);
     }
 }

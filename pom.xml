@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
+        <onejar-maven-plugin.version>1.4.4</onejar-maven-plugin.version>
     </properties>
 
     <dependencies>
@@ -42,7 +43,47 @@
             <version>5.0.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.kohlschutter.junixsocket</groupId>
+            <artifactId>junixsocket-core</artifactId>
+            <version>2.3.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.kohlschutter.junixsocket</groupId>
+            <artifactId>junixsocket-server</artifactId>
+            <version>2.3.2</version>
+        </dependency>
 
     </dependencies>
+
+    <build>
+        <finalName>vault</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>com.jolira</groupId>
+                <artifactId>onejar-maven-plugin</artifactId>
+                <version>${onejar-maven-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <configuration>
+                            <mainClass>co.nubela.vault.Vault</mainClass>
+                            <attachToBuild>true</attachToBuild>
+                            <filename>${project.build.finalName}-onejar.${project.packaging}</filename>
+                        </configuration>
+                        <goals>
+                            <goal>one-jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
