@@ -4,8 +4,6 @@ import co.nubela.vault.json.ClientRequest;
 import co.nubela.vault.json.ClientResponse;
 import co.nubela.vault.json.InfuraRequest;
 import co.nubela.vault.json.InfuraResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.*;
 import org.newsclub.net.unix.AFUNIXServerSocket;
@@ -25,7 +23,6 @@ import java.net.Socket;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class VaultServer {
@@ -69,7 +66,7 @@ public class VaultServer {
                 System.out.println("Waiting for connection...");
                 try (Socket sock = server.accept()) {
                     System.out.println("Connected: " + sock);
-                    try (InputStream is = sock.getInputStream(); //
+                    /*try (InputStream is = sock.getInputStream(); //
                         OutputStream os = sock.getOutputStream()) {
                         byte[] buf = new byte[1024];
                         int read = is.read(buf);
@@ -79,7 +76,11 @@ public class VaultServer {
 
                         os.write(response.getBytes());
                         os.flush();
-                    }
+                    }*/
+                    out = new PrintWriter(sock.getOutputStream(), true);
+                    in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+                    String inputLine  = in.readLine();
+                    out.println(getResponse(inputLine));
                 }
             }
         }
